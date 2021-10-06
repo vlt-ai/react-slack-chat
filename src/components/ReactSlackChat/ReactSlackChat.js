@@ -7,6 +7,7 @@ import { load as emojiLoader, parse as emojiParser } from 'gh-emoji';
 
 import styles from './ReactSlackChat.scss';
 
+import logo from '../../assets/logo.svg';
 import defaultChannelIcon from '../../assets/team.svg';
 
 // Chat Functions
@@ -392,9 +393,9 @@ class ReactSlackChat extends Component {
         });
     };
 
-    // Call it once
+    // call it once
     getMessagesFromSlack();
-    // Set the function to be called at regular intervals
+    // set the function to be called at regular intervals
     // get the history of channel at regular intevals
     this.activeChannelInterval = setInterval(
       getMessagesFromSlack,
@@ -621,22 +622,31 @@ class ReactSlackChat extends Component {
   }
 
   render() {
-    // If Slack communications have failed or errored out
-    // do not render anything
+    // if slack communications have failed or errored out do not render anything
     if (this.state.failed) {
       return false;
     }
+
     // Looks like nothing failed, let's start to render our chatbox
     const chatbox = (
       <div>
+        {!this.state.chatbox.active ? (
+          <div
+            onClick={this.openChatBox}
+            dangerouslySetInnerHTML={{ __html: defaultChannelIcon }}
+            className={styles.logo}
+          />
+        ) : (
+          <></>
+        )}
         <div
+          onClick={this.openChatBox}
           className={classNames(
             styles.card,
             styles.transition,
             this.state.chatbox.active ? styles.active : '',
             this.state.chatbox.chatActiveView ? styles.chatActive : ''
           )}
-          onClick={this.openChatBox}
         >
           <div className={styles.helpHeader}>
             {this.state.newMessageNotification > 0 && (
@@ -644,10 +654,11 @@ class ReactSlackChat extends Component {
                 {this.state.newMessageNotification}
               </span>
             )}
-            <h2 className={styles.transition}>
-              {this.state.helpText || 'Help?'}
-            </h2>
-            <h2 className={styles.subText}>Click on a channel to interact.</h2>
+            <div
+              style={{ color: 'white' }}
+              dangerouslySetInnerHTML={{ __html: logo }}
+              className={styles.volt_logo}
+            />
           </div>
           <div className={classNames(styles.card_circle, styles.transition)} />
           <div
@@ -685,10 +696,10 @@ class ReactSlackChat extends Component {
                 onClick={this.goToChannelView}
               />
               <div className={styles.chat__person}>
-                <span className={styles.chat__status}>status</span>
-                <span
+                {/* <span className={styles.chat__status}>status</span> */}
+                {/* <span
                   className={classNames(styles.chat__online, styles.active)}
-                />
+                /> */}
                 <span className={styles.chat__name}>
                   {this.activeChannel.name}
                 </span>
