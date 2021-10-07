@@ -16,15 +16,7 @@ const rules = [
       'sass-loader', // compiles Sass to CSS, using Node Sass by default
     ],
   },
-  { test: /\.svg$/, use: 'svg-inline-loader' },
-  {
-    test: /\.(png|jpe?g|gif)$/i,
-    use: [
-      {
-        loader: 'file-loader',
-      },
-    ],
-  },
+  { test: /\.svg$/, use: 'svg-inline-loader' }
 ];
 
 const withSystemHooks = process.env.SYSTEM_HOOKS === JSON.stringify(true);
